@@ -5,18 +5,19 @@ import { ReactNode, useState } from "react";
 import { useMutation } from "react-query";
 import { useRouter } from "next/navigation";
 import { FaSpinner } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { doc, getDoc } from "firebase/firestore";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import PublicLayout from "@/src/components/layouts/public/PublicLayout";
 import BackArrow from "@/public/backarrow.svg";
 import Apple from "@/public/apple.svg";
 import PlayStore from "@/public/playstore.svg";
 import { Button } from "@/src/components/ui/Button";
 
-import { auth, firestore } from "@/Firebase";
+import { firebase, auth, firestore, googleProvider } from "@/Firebase";
 
 export interface UserData {
   uid: string;
@@ -49,28 +50,73 @@ const loginUser = async (
 
     throw new Error("User not found");
   } catch (error) {
-    throw new Error("" || "Login failed");
+    throw new Error("Login failed");
   }
 };
 
+const loginWithGoogle = async (): Promise<UserData> => {
+  try {
+    console.log("Auth:", auth);
+    console.log("Google Provider:", googleProvider);
+
+    const result = await firebase.auth().signInWithPopup(googleProvider);
+    const user = result.user;
+
+    if (user) {
+      const userRef = firestore.doc(`users/${user.uid}`);
+      const userDoc = await userRef.get();
+
+      if (!userDoc.exists) {
+        throw new Error("User data not found");
+      }
+
+      return { ...userDoc.data(), uid: user.uid } as UserData;
+    }
+
+    throw new Error("User not found");
+  } catch (error: any) {
+    console.error("Google login error:", error);
+    throw new Error(error.message || "Google login failed");
+  }
+};
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
 
-  const { mutate, isLoading } = useMutation(() => loginUser(email, password), {
-    onSuccess: (data: UserData) => {
-      router.push("/dashboard" as string);
-      toast.success("Login successful!");
-    },
-    onError: (error: Error) => {
-      toast.error(error.message || "Login failed");
-    },
-  });
+  const { mutate: mutateLogin, isLoading: isLoginLoading } = useMutation(
+    () => loginUser(email, password),
+    {
+      onSuccess: (data: UserData) => {
+        router.push("/dashboard");
+        toast.success("Login successful!");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message || "Login failed");
+      },
+    }
+  );
+
+  const { mutate: mutateGoogleLogin, isLoading: isGoogleLoading } = useMutation(
+    loginWithGoogle,
+    {
+      onSuccess: (data: UserData) => {
+        router.push("/dashboard");
+        toast.success("Google login successful!");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message || "Google login failed");
+      },
+    }
+  );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutate();
+    mutateLogin();
+  };
+
+  const handleGoogleLogin = () => {
+    mutateGoogleLogin();
   };
 
   return (
@@ -80,6 +126,17 @@ const Login = () => {
           <div className="flex h-full w-full items-center justify-center py-6">
             <form className="flex flex-col" onSubmit={handleSubmit}>
               <p className="mb-8 text-3xl font-bold text-darkbrown">Login</p>
+
+              <p className="mb-4 -mt-4 flex-row gap-1 flex text-base font-normal leading-5 text-lightbrown mob:hidden">
+                Sign in with
+                <span
+                  onClick={handleGoogleLogin}
+                  className="cursor-pointer font-medium text-lightgreen underline"
+                >
+                  <FcGoogle className="mt-1" />
+                </span>
+              </p>
+
               <input
                 required
                 type="email"
@@ -111,7 +168,7 @@ const Login = () => {
               </p>
 
               <Button variant="secondary" size="sm" className="mt-4">
-                {isLoading ? (
+                {isLoginLoading ? (
                   <FaSpinner className="animate-spin" />
                 ) : (
                   <span className="relative z-10">Login</span>
@@ -165,13 +222,24 @@ const Login = () => {
               Your new training grounds
             </p>
           </div>
-          <div className="absolute bottom-16 left-[50%] z-[10] translate-x-[-50%] items-center gap-4">
-            <div className="flex items-center gap-6 mob:hidden tab:hidden cursor-pointer">
-              <Image src={Apple} alt="Apple" />
-              <Image src={PlayStore} alt="PlayStore" />
+          <div className="absolute bottom-10 left-10 hidden mob:block tab:block">
+            <div className="flex gap-4">
+              <Image
+                src={Apple}
+                alt="Apple Store"
+                width={130}
+                height={40}
+                className="mob:w-[100px]"
+              />
+              <Image
+                src={PlayStore}
+                alt="Play Store"
+                width={130}
+                height={40}
+                className="mob:w-[100px]"
+              />
             </div>
           </div>
-          <div className="bg-gradient-to-b from-custom-hsla1 via-custom-hsla2 to-custom-f2eee6 absolute bottom-0 z-[1] h-[350px] w-full opacity-90"></div>
         </div>
       </div>
     </div>
@@ -180,6 +248,6 @@ const Login = () => {
 
 export default Login;
 
-Login.publicLayout = function (page: ReactNode) {
+Login.getLayout = function getLayout(page: ReactNode) {
   return <PublicLayout>{page}</PublicLayout>;
 };
