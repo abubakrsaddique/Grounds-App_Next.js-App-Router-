@@ -1,6 +1,6 @@
-"use client";
 import { ReactNode, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+
 import { useAuthContext } from "@/src/context/AuthProvider";
 
 interface PrivateRoutesProps {
@@ -8,18 +8,21 @@ interface PrivateRoutesProps {
 }
 
 const PrivateRoutes: React.FC<PrivateRoutesProps> = ({ children }) => {
-  const router = useRouter();
   const pathname = usePathname();
   const { user, loading } = useAuthContext();
 
   useEffect(() => {
-    if (!loading) {
-      const authRoutes = ["/dashboard"];
-      if (!user && authRoutes.includes(pathname)) {
-        router.push("/login");
+    const handleRouteChange = (url: string) => {
+      if (!loading) {
+        const authRoutes = ["/dashboard"];
+        if (!user && authRoutes.includes(url)) {
+          window.location.href = "/login";
+        }
       }
-    }
-  }, [loading, user, pathname, router]);
+    };
+
+    handleRouteChange(pathname);
+  }, [loading, user, pathname]);
 
   if (loading) {
     return <p>Loading...</p>;
