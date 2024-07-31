@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import { ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TanstackProvider from "../provider/TanstackProvider";
 import Layout from "../layouts/layout";
-import { AuthProvider } from "@/src/context/AuthProvider";
 
 import "./globals.css";
 

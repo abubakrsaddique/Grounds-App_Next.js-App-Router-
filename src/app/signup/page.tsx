@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { FaSpinner } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 
 import PublicLayout from "@/src/components/layouts/public/PublicLayout";
@@ -17,7 +18,7 @@ import StartUpImage1 from "@/public/startup1.svg";
 import StartUpImage2 from "@/public/startup2.svg";
 import StartUpImage3 from "@/public/startup3.svg";
 
-import { auth, firestore } from "@/Firebase";
+import { firebase, auth, firestore } from "@/Firebase";
 
 interface FormData {
   firstName: string;
@@ -131,6 +132,31 @@ const Signup = () => {
     }
     mutate(formData);
   };
+
+  const handleGoogleSignup = async () => {
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const result = await auth.signInWithPopup(provider);
+      const user = result.user;
+
+      if (user) {
+        const uid = user.uid;
+        const userRef = firestore.collection("users").doc(uid);
+        await userRef.set({
+          firstName: user.displayName?.split(" ")[0] || "",
+          lastName: user.displayName?.split(" ")[1] || "",
+          email: user.email,
+        });
+
+        toast.success("User signed up successfully with Google!");
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      toast.error("Google sign-in failed. Please try again.");
+    }
+  };
+
   return (
     <div className="min-h-screen w-full bg-gray">
       <div className="flex flex-row mob:flex-col-reverse tab:flex-col-reverse">
@@ -257,6 +283,17 @@ const Signup = () => {
                           {" "}
                           <span className="cursor-pointer font-medium text-lightgreen underline">
                             Log In
+                          </span>
+                        </Link>
+                      </p>
+                      <p className="mb-10  -mt-7 flex-row gap-1 flex text-sm font-normal leading-5 text-lightbrown mob:hidden">
+                        Signup with
+                        <Link href="">
+                          <span
+                            className="cursor-pointer font-medium text-lightgreen underline"
+                            onClick={handleGoogleSignup}
+                          >
+                            <FcGoogle className="mt-1" />
                           </span>
                         </Link>
                       </p>
