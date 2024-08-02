@@ -52,13 +52,14 @@ const Checkout = () => {
                 </div>
                 <div className="px-[18%] relative mob:px-[6%]">
                   <Link href="/signup">
-                    {" "}
                     <Button
                       variant="secondary"
                       size="lg"
                       className="bg-lightgreen hover:bg-brown transition-colors duration-500 "
                     >
-                      Continue To Create Account
+                      <span className="relative z-10">
+                        Continue To Create Account
+                      </span>
                     </Button>
                   </Link>
                   <p className="mt-5 text-center text-xs font-light leading-5 mob:pb-6">
@@ -87,7 +88,6 @@ const Checkout = () => {
           <div className="absolute left-5 top-5 hidden tab:block mob:block">
             <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border-[3px] border-darkbrown border-opacity-[0.1]">
               <Link href="/login">
-                {" "}
                 <Image src={BackArrow} alt="" />
               </Link>
             </div>
@@ -95,7 +95,6 @@ const Checkout = () => {
           <div className="absolute right-14 top-9 flex items-center  gap-4 mob:hidden">
             <div className="relative z-[100] text-primary cursor-pointer overflow-hidden flex h-11 w-24 items-center justify-center rounded-3xl text-base font-medium ">
               <Link href="/">
-                {" "}
                 <span className="relative z-10 tab:hidden mob:hidden">
                   Home
                 </span>

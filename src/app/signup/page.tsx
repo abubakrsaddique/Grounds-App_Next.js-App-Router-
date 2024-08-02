@@ -169,7 +169,9 @@ const Signup = () => {
           <div className="w-full realtive">
             <div className="h-screen overflow-scroll mt-0 block">
               <div className="flex h-10 w-10 cursor-pointer items-center mt-8 ml-8 justify-center rounded-xl border-[3px] border-darkbrown border-opacity-[0.1] mob:hidden tab:hidden">
-                <Image src={BackArrow} alt="Back Arrow" />
+                <Link href="/checkout">
+                  <Image src={BackArrow} alt="Back Arrow" />
+                </Link>
               </div>
               <div>
                 <div className="relative pl-5 w-[70%] mx-auto mob:w-[90%] mob:pl-0">
@@ -343,7 +345,9 @@ const Signup = () => {
         <div className="relative block w-[60%] mob:w-full lg:w-[60%] tab:w-full">
           <div className="absolute left-5 top-5 hidden tab:block mob:block">
             <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border-[3px] border-darkbrown border-opacity-[0.1]">
-              <Image src={BackArrow} alt="Back Arrow" />
+              <Link href="/checkout">
+                <Image src={BackArrow} alt="Back Arrow" />
+              </Link>
             </div>
           </div>
           <div className="absolute right-14 top-9 flex items-center gap-4 mob:hidden">
