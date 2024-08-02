@@ -142,17 +142,21 @@ const Signup = () => {
       if (user) {
         const uid = user.uid;
         const userRef = firestore.collection("users").doc(uid);
-        await userRef.set({
-          firstName: user.displayName?.split(" ")[0] || "",
-          lastName: user.displayName?.split(" ")[1] || "",
-          email: user.email,
-        });
+        const userDoc = await userRef.get();
 
-        toast.success("User signed up successfully with Google!");
-        router.push("/dashboard");
+        if (userDoc.exists) {
+          toast.success("User signed up successfully with Google!");
+        } else {
+          await userRef.set({
+            firstName: user.displayName?.split(" ")[0] || "",
+            lastName: user.displayName?.split(" ")[1] || "",
+            email: user.email,
+          });
+          toast.success("User signed up successfully with Google!");
+          router.push("/dashboard");
+        }
       }
     } catch (error) {
-      console.error("Google sign-in error:", error);
       toast.error("Google sign-in failed. Please try again.");
     }
   };

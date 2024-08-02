@@ -67,7 +67,7 @@ const Dashboard: NextPage = () => {
   if (isError) return <p>Error fetching profile data.</p>;
 
   return (
-    <div className="min-h-screen bg-gray w-full mob:no-scrollbar">
+    <div className="min-h-screen bg-gray w-full mob:no-scrollbar ">
       {/* Navbar */}
       <div className="flex items-center justify-between px-40 py-11 mob:px-4 mob:py-8 tab:px-4 tab:py-8">
         <Link href="/">
