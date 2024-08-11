@@ -127,7 +127,7 @@ const Login = () => {
             <form className="flex flex-col" onSubmit={handleSubmit}>
               <p className="mb-8 text-3xl font-bold text-darkbrown">Login</p>
 
-              <p className="mb-4 -mt-4 flex-row gap-1 flex text-base font-normal leading-5 text-lightbrown mob:hidden">
+              <p className="mb-4 -mt-4 flex-row gap-1 flex text-base font-normal leading-5 text-lightbrown ">
                 Sign in with
                 <span
                   onClick={handleGoogleLogin}
@@ -222,8 +222,8 @@ const Login = () => {
               Your new training grounds
             </p>
           </div>
-          <div className="absolute bottom-10 left-10 hidden mob:block tab:block">
-            <div className="flex gap-4">
+          <div className="absolute bottom-16 left-[50%] z-[10] translate-x-[-50%]  items-center gap-4">
+            <div className="flex items-center gap-6 mob:hidden tab:hidden cursor-pointer">
               <Image
                 src={Apple}
                 alt="Apple Store"
@@ -240,6 +240,7 @@ const Login = () => {
               />
             </div>
           </div>
+          <div className="bg-gradient-to-b from-custom-hsla1 via-custom-hsla2 to-custom-f2eee6 absolute bottom-0 z-[1] h-[350px] w-full opacity-90"></div>
         </div>
       </div>
     </div>

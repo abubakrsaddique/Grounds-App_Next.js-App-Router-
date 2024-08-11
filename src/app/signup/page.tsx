@@ -292,7 +292,7 @@ const Signup = () => {
                           </span>
                         </Link>
                       </p>
-                      <p className="mb-10  -mt-7 flex-row gap-1 flex text-sm font-normal leading-5 text-lightbrown mob:hidden">
+                      <p className="mb-10  -mt-7 flex-row gap-1 flex text-sm font-normal leading-5 text-lightbrown ">
                         Signup with
                         <Link href="">
                           <span
