@@ -96,7 +96,7 @@ const Banner: React.FC = () => {
             <Button variant="default">Login</Button>
           </Link> */}
         </nav>
-        {/* <Drawer menuOpen={menuOpen} toggleMenu={toggleMenu} /> */}
+        <Drawer menuOpen={menuOpen} toggleMenu={toggleMenu} />
         {/* For Mobile */}
         {isModalOpen && (
           <div className="fixed inset-0 z-[200] flex items-end justify-center bg-gray bg-opacity-75">
