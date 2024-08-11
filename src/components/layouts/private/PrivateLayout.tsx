@@ -5,7 +5,7 @@ interface PrivateLayoutProps {
   children: ReactNode;
 }
 
-const PrivateLayout: React.FC<PrivateLayoutProps> = ({ children }) => {
+const PrivateLayout = ({ children }: PrivateLayoutProps) => {
   return (
     <>
       <PrivateRoutes>{children}</PrivateRoutes>

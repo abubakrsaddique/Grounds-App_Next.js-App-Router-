@@ -34,10 +34,10 @@ const Payment = () => {
             ID. You might need to sign in with your Apple ID
           </li>
           <li className="text-base font-medium ">
-            Scroll down and tap 'Subscriptions'
+            Scroll down and tap Subscriptions
           </li>
           <li className="text-base font-medium ">
-            Choose 'Grounds' as the subscription that you want to manage
+            Choose Grounds as the subscription that you want to manage
           </li>
         </ol>
       </div>

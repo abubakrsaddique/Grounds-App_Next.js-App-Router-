@@ -22,10 +22,9 @@ import AddImage from "@/public/addimage.webp";
 import AddButton from "@/public/add.svg";
 import Apple from "@/public/apple.svg";
 import PlayStore from "@/public/playstore.svg";
-
 import { auth } from "@/Firebase";
 
-const Dashboard: NextPage = () => {
+const Dashboard = () => {
   const {
     isModalOpen,
     modalType,
