@@ -127,7 +127,7 @@ const Login = () => {
             <form className="flex flex-col" onSubmit={handleSubmit}>
               <p className="mb-8 text-3xl font-bold text-darkbrown">Login</p>
 
-              <p className="mb-4 -mt-4 flex-row gap-1 flex text-base font-normal leading-5 text-lightbrown ">
+              {/* <p className="mb-4 -mt-4 flex-row gap-1 flex text-base font-normal leading-5 text-lightbrown ">
                 Sign in with
                 <span
                   onClick={handleGoogleLogin}
@@ -135,7 +135,7 @@ const Login = () => {
                 >
                   <FcGoogle className="mt-1" />
                 </span>
-              </p>
+              </p> */}
 
               <input
                 required

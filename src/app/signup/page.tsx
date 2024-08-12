@@ -292,7 +292,7 @@ const Signup = () => {
                           </span>
                         </Link>
                       </p>
-                      <p className="mb-10 mob:mt-1 -mt-7 flex-row gap-1 flex text-sm font-normal leading-5 text-lightbrown ">
+                      {/* <p className="mb-10 mob:mt-1 -mt-7 flex-row gap-1 flex text-sm font-normal leading-5 text-lightbrown ">
                         Signup with
                         <Link href="">
                           <span
@@ -302,7 +302,7 @@ const Signup = () => {
                             <FcGoogle className="mt-1" />
                           </span>
                         </Link>
-                      </p>
+                      </p> */}
                       <Button
                         variant="secondary"
                         size="lg"
